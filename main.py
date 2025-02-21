@@ -2,9 +2,19 @@ from yt_dlp import YoutubeDL
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, Updater, CallbackContext
 import os
+import re
+from urllib.parse import urlparse
+from datetime import datetime
+
 
 # Replace with your bot token
-BOT_TOKEN = 'Bot'
+BOT_TOKEN = '7845151072:AAEi1rWJ-2Kc3eVjfJmrWNqTyUcZULlZCaI'
+
+def print_timestamp():
+    """Prints the current time in the format mmddyyyy - hhmmss."""
+    now = datetime.now()
+    timestamp = now.strftime("%m%d%Y - %H%M%S")
+    print(f"[{timestamp}]")
 
 # Command 1: Start the bot
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -22,7 +32,24 @@ Bitcoin: `36wfr58pdzN8S8kG9sTxQQ3o8rzd1JbVBz`
 
 # Handle Twitter video URLs
 async def download_twitter_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print_timestamp()
     url = update.message.text
+
+    # Check if the URL is empty or not provided
+    if not url:
+        await update.message.reply_text("Please provide a valid URL.")
+        return
+
+    # Validate the URL format
+    try:
+        result = urlparse(url)
+        if not all([result.scheme, result.netloc]):
+            await update.message.reply_text("Invalid URL format. Please provide a valid URL.")
+            return
+    except Exception as e:
+        await update.message.reply_text(f"Invalid URL: {e}")
+        return
+
     ydl_opts = {
         'format': 'best',  # Download the best quality available
         'outtmpl': '%(id)s.%(ext)s',  # Output file name template
