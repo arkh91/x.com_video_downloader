@@ -4,11 +4,17 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import os
 
 # Replace with your bot token
-BOT_TOKEN = 'Bot_Token'
+BOT_TOKEN = 'BOT'
 
+# Command 1: Start the bot
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Welcome! Send me a Twitter video URL to download it.')
 
+# Command 2: Show some text
+async def show_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text('This is some text displayed by the bot!')
+
+# Handle Twitter video URLs
 async def download_twitter_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = update.message.text
     ydl_opts = {
@@ -30,6 +36,7 @@ if __name__ == "__main__":
 
     # Command handlers
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("Donation", show_text))
 
     # Message handler for Twitter video URLs
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, download_twitter_video))
