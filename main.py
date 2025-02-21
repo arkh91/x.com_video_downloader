@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 # Replace with your bot token
-BOT_TOKEN = '7845151072:AAEi1rWJ-2Kc3eVjfJmrWNqTyUcZULlZCaI'
+BOT_TOKEN = 'Bot'
 
 def print_timestamp():
     """Prints the current time in the format mmddyyyy - hhmmss."""
